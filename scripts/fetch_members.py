@@ -40,6 +40,9 @@ def fetch_members(group_id):
         r = requests.get(url, params=params)
         r.raise_for_status()
 
+        if r.status_code == 404:
+            raise RuntimeError("Steam Group not found or you don't have access to it!")
+
         data = r.json()["response"]
 
         members.extend(data.get("members", []))
