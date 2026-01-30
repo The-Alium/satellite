@@ -9,42 +9,47 @@ def resolve_group_id(group):
     if group.isdigit():
         return group
 
-    url = "https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/"
-    params = {
-        "key": API_KEY,
-        "vanityurl": group,
-        "url_type": 2  # Steam group
-    }
+    r = requests.get(
+        "https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/",
+        params={
+            "key": API_KEY,
+            "vanityurl": group,
+            "url_type": 2,
+        },
+        timeout=15
+    )
 
-    r = requests.get(url, params=params)
     r.raise_for_status()
-    data = r.json()
 
-    if data["response"]["success"] != 1:
+    data = r.json()["response"]
+
+    if data.get("success") != 1:
         raise RuntimeError("Failed to resolve Steam Group ID")
 
-    return data["response"]["steamid"]
+    return data["steamid"]
 
 def fetch_members(group_id):
     members = []
     page = 1
 
     while True:
-        url = "https://api.steampowered.com/ISteamUser/GetGroupMembersList/v1/"
-        params = {
-            "key": API_KEY,
-            "steamid": group_id,
-            "page": page
-        }
-
-        r = requests.get(url, params=params)
-        r.raise_for_status()
+        r = requests.get(
+            "https://api.steampowered.com/ISteamUser/GetGroupMembersList/v1/",
+            params={
+                "key": API_KEY,
+                "steamid": group_id,
+                "page": page,
+            },
+            timeout=15
+        )
 
         if r.status_code == 404:
-            raise RuntimeError("Steam Group not found or you don't have access to it!")
+            print("Steam Group not found or you don't have access to it!")
+            return []
 
-        data = r.json()["response"]
+        r.raise_for_status()
 
+        data = r.json().get("response", {})
         members.extend(data.get("members", []))
 
         if "next_page" not in data:
@@ -67,7 +72,6 @@ def main():
                 "members": members,
             },
             f,
-            ensure_ascii=False,
             indent=2
         )
 
