@@ -1,3 +1,5 @@
+[![Fetch Steam Group Members](https://github.com/The-Alium/satellite/actions/workflows/steam-group-members.yml/badge.svg)](https://github.com/The-Alium/satellite/actions/workflows/steam-group-members.yml)
+
 # Community Satellite
 A satellite repository containing all the necessary information about participants and the community required for community servers.
 - The current purpose of this repository is **be a placeholder** until external API is created.
