@@ -31,6 +31,6 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add members.json
+          git add members.json portraits.json
           git commit -m "Update Steam group members" || echo "No changes"
           git push
