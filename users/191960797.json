@@ -1,0 +1,13 @@
+{
+    "name": "Erick_Maksimets",
+    "join_date": "1999-01-01",
+    "role": "officer",
+    "unit": "starry_steam",
+    "model": {
+        "color": "255 255 255",
+        "path": "",
+        "skin": 0,
+        "bodygroups": {
+        }
+    }
+}

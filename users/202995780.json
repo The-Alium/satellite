@@ -1,0 +1,13 @@
+{
+    "name": "Default_OS",
+    "join_date": "1999-01-01",
+    "role": "developer",
+    "unit": "p1ka",
+    "model": {
+        "color": "255 255 255",
+        "path": "",
+        "skin": 0,
+        "bodygroups": {
+        }
+    }
+}
