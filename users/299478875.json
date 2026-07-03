@@ -1,0 +1,13 @@
+{
+    "name": "denomito",
+    "join_date": "1999-01-01",
+    "role": "officer",
+    "unit": "renaissance",
+    "model": {
+        "color": "255 255 255",
+        "path": "",
+        "skin": 0,
+        "bodygroups": {
+        }
+    }
+}
