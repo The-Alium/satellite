@@ -1,0 +1,12 @@
+{
+  "name": "Gunter",
+  "join_date": "1999-01-01",
+  "role": "activist",
+  "unit": "p1ka",
+  "model": {
+    "color": "255 255 255",
+    "path": "",
+    "skin": 1,
+    "bodygroups": {}
+  }
+}
