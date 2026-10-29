@@ -3,34 +3,50 @@ name: Fetch Steam Group Members
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 */7 * *"
+    - cron: "0 0 * * 0" # weekly, Sunday 00:00 UTC
+  push:
+    branches: [main]
+    paths:
+      - "resources/portraits/**"
+      - "scripts/fetch_members.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: steam-group-members
+  cancel-in-progress: false
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: "3.11"
+          python-version: "3.13"
 
       - name: Install dependencies
         run: pip install requests xmltodict
 
       - name: Fetch group members
         env:
-          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
           STEAM_GROUP: ${{ vars.STEAM_GROUP }}
         run: python scripts/fetch_members.py
 
-      - name: Commit members.json
+      - name: Commit changes
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add members.json portraits.json
-          git commit -m "Update Steam group members" || echo "No changes"
+          if git diff --staged --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "Update Steam group members"
           git push
